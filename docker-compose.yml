@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: 'rabbitmq:3'
+    ports:
+      - '4369:4369'
+      - '5672:5672'
+      - '25672:25672'
+      - '15672:15672'
+  test.api:
+    image: 'merthen/test.api:latest'
+    depends_on:
+        - rabbitmq
+    ports:
+        - '80:80'
+  test.listenerservice:
+    image: 'merthen/test.listenerservice:latest'
+    depends_on:
+        - rabbitmq   
+volumes:
+  rabbitmq_data:
+    driver: local
